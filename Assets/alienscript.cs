@@ -14,6 +14,8 @@ public class alienscript : MonoBehaviour
     public float unlandedZ = 0;
     public GameObject gameOverPanel;
     public Camera mainCam;
+    public GameObject logicManager;
+    //public healthmanager healthmanager;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -130,6 +132,11 @@ public class alienscript : MonoBehaviour
         float safetyTopY = safetyLand.position.y + (safetyLand.localScale.y / 2); 
         float alienHeight = transform.localScale.y / 2; 
         transform.position = new Vector3(transform.position.x, safetyTopY + alienHeight, landedZ);
+        healthmanager healthManager = logicManager.GetComponent<healthmanager>();
+        if (healthManager != null )
+        {
+            healthManager.ReplenishHeart();
+        }
     }
 
     void DetachFromSafety()
@@ -165,5 +172,14 @@ public class alienscript : MonoBehaviour
             GameOver();
         }
 
+    }
+
+    public void OnMissedMissile()
+    {
+        healthmanager healthManager = logicManager.GetComponent<healthmanager>();
+        if (healthManager != null)
+        {
+            healthManager.LoseHeart();
+        }
     }
 }
